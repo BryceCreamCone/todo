@@ -26,4 +26,17 @@ RSpec.describe TasksController, type: :controller do
     end
   end
 
+
+  describe "#create" do
+    it "should allow tasks to be added to the database" do
+      task1 = FactoryBot.create(:task)
+      task2 = FactoryBot.create(:task)
+      post :create, params: {task: {title: "Clean Computer"} }
+      expect(response).to have_http_status :success
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['title']).to eq("Clean Computer")
+      expect(Task.last.title).to eq("Clean Computer")
+    end
+  end
+
 end
