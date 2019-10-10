@@ -1,0 +1,25 @@
+<section class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <input class="new-todo" placeholder="What needs to be done?" autofocus="">
+  </header>
+  <section class="main">
+    <ul class="todo-list">
+      
+    </ul>
+  </section>
+</section>
+<script>
+  $(function() {
+    let htmlString = "";
+    $.get("/tasks").success( function(data) {
+      $.each(data, function(index, task) {
+        let liElement = '<li><div class="view"><input class="toggle" type="checkbox"><label>' + 
+                         task.title + '</label></div></li>';
+        htmlString += liElement;
+      });
+    let ulTodos = $('.todo-list');
+    ulTodos.html(htmlString);
+    });
+  });
+</script>
