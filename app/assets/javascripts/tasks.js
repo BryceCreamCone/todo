@@ -57,6 +57,7 @@ $(function() {
   $('#todo-form').keypress(function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+      $('#todo-form').submit()
       let newTodo = $('.new-todo')
       let payload = {
         task: {
