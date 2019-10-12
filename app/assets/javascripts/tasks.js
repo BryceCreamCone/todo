@@ -1,5 +1,5 @@
 $(function() {
-  let htmlString = "";
+  var htmlString = "";
   let ulTodos = $('.todo-list')
 
   function taskHtml(task) {
@@ -54,23 +54,20 @@ $(function() {
     $('.toggle').change( toggleTask );
   });
 
-  $('#todo-form').keypress(function(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      $('#todo-form').submit()
-      let newTodo = $('.new-todo')
-      let payload = {
-        task: {
-          title: newTodo.val()
-        }
-      };
-      $.post("/tasks", payload).success( function(data) {
-        let htmlString = taskHtml(data);
-        ulTodos.append(htmlString);
-        $('.toggle').change( toggleTask );
-        newTodo.val('');
-      });
-    }
+  $('#todo-form').submit(function(event) {
+    event.preventDefault();
+    let newTodo = $('.new-todo')
+    let payload = {
+      task: {
+        title: newTodo.val()
+      }
+    };
+    $.post("/tasks", payload).success( function(data) {
+      let htmlString = taskHtml(data);
+      ulTodos.append(htmlString);
+      $('.toggle').change( toggleTask );
+      newTodo.val('');
+    });
   });
 
   $(document).on('click', '.destroy', destroyTask);
