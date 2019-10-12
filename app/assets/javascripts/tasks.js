@@ -4,9 +4,16 @@ $(function() {
 
   function taskHtml(task) {
     let checkedStatus = task.done ? "checked" : "";
-    let liElement = '<li><div class="view"><input class="toggle" type="checkbox"' +
-                    ' data-id="' + task.id + '"' + checkedStatus + '><label>' + 
-                    task.title + '</label></div></li>';
+    let liClass = task.done ? "completed" : "";
+    let liElement = 
+      `<li data-id="${task.id}" class="${liClass}">
+          <div class="view">
+            <input class="toggle" type="checkbox" data-id="${task.id}" ${checkedStatus}>
+              <label>${task.title}<button class="destroy"></button>
+              </label>
+            </input>
+          </div>
+       </li>`;
     return liElement;
   }
 
@@ -20,6 +27,20 @@ $(function() {
       task: {
         done: doneValue
       }
+    }).success( function(data) {
+      let liHtml = taskHtml(data);
+      let $li = $('li[data-id="' + data.id + '"]');
+      $li.replaceWith(liHtml);
+      $('.toggle').change(toggleTask);
+    });
+  }
+
+  function destroyTask() {
+    let item = this.parentNode.offsetParent;
+    item.parentNode.removeChild(item)
+    $.ajax({
+      type: "DELETE",
+      url: "/tasks/" + item.dataset.id,
     });
   }
 
@@ -48,4 +69,6 @@ $(function() {
       newTodo.val('');
     });
   });
+
+  $(document).on('click', '.destroy', destroyTask);
 });

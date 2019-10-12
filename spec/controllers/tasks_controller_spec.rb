@@ -39,4 +39,14 @@ RSpec.describe TasksController, type: :controller do
     end
   end
 
+
+  describe "#destroy" do
+    it "allows a task to be deleted from the database" do
+      task = FactoryBot.create(:task)
+      delete :destroy, params: {id: task.id}
+      expect(response).to have_http_status :success
+      expect(Task.all.count).to eq 0
+    end
+  end
+
 end
