@@ -8,10 +8,8 @@ $(function() {
     let liElement = 
       `<li data-id="${task.id}" class="${liClass}">
           <div class="view">
-            <input class="toggle" type="checkbox" data-id="${task.id}" ${checkedStatus}>
-              <label>${task.title}<button class="destroy"></button>
-              </label>
-            </input>
+            <input class="toggle" type="checkbox" data-id="${task.id}" ${checkedStatus}/>
+            <label>${task.title}<button class="destroy"></button></label>
           </div>
        </li>`;
     return liElement;
